@@ -1,104 +1,235 @@
-# mvc-express-setup
+# Library Management System API
 
-**mvc-express-setup** is a simple and customizable backend setup for building web applications using **Express.js** and **MongoDB** with **Mongoose** in a **Model-View-Controller (MVC)** architecture. This package provides a ready-to-use project structure with essential configuration files, making it easier to get started with backend development.
+A RESTful API to manage a library system with functionality for handling users, books, authors, and borrowings.
 
----
+## Features
 
-## 🛠 Features
+- **User Management**: Admins can manage users (create, update, delete, view).
+- **Book Management**: Admins can manage books (add, update, delete, view).
+- **Author Management**: Admins can manage authors (add, update, delete, view).
+- **Borrowing System**: Members can borrow and return books; Admins can view all transactions.
+- **Role-based Access Control**: Different access levels for Admins and Members.
 
-- 🚀 Fully configured **Express.js** server setup
-- 🗄 MongoDB connection with **Mongoose**
-- 🔑 Basic **MVC** architecture (Models, Views, Controllers)
-- 🌱 Simple API setup for easy extension
-- 🔒 Environment configuration with **dotenv**
-- ⚡ Supports **nodemon** for automatic reloading during development
-- 🖥 Easy project setup via CLI
+## Tech Stack
 
----
+- **Node.js**: Backend server.
+- **Express**: Web framework.
+- **MongoDB**: Database for storing users, books, authors, and transactions.
+- **JWT**: For authentication and role-based access control.
+- **Mongoose**: ODM for MongoDB.
 
-## 🚀 Installation
+## Setup Instructions
 
-### Global Installation
+### Prerequisites
 
-You can install **mvc-express-setup** to globally to easily create an Express.js app setup from anywhere on your system.
+- Node.js (v14 or later)
+- MongoDB database (Local or Cloud)
 
-1. **Install Globally**:
+### Steps to Run the Application
 
-   Run the following command to install the package globally:
+1. **Clone the Repository**
 
    ```bash
-   npm install -g mvc-express-setup
+   git clone <repo-url>
+   cd <repo-directory>
 
-* After installing, you can use the
-   ```
-    setup-express-app
+2. Install Dependencies
+     ```
+       npm install
+     ```
+
+3. Setup Environment Variables
+
+- Create a .env file in the root directory and add the following:
   ```
-  command from anywhere to set up a new Express.js project.
+  PORT=5000
+  MONGO_URI=<your-mongo-uri>
+  JWT_SECRET=<your-jwt-secret>
+  ```
 
-## ⚡️ How It Works
-#### Run the Setup Command:
-  After Runing the `npx setup-express-app` comand in the desired directory.
-- The tool will prompt you to specify a directory. 
-   #### You can either:
-- Enter a directory name to create and set up the project there.
-- Enter . to set up the project in the current directory.
-#### Automatic Project Setup:
-- The tool will create the required files to your selected directory, initialize package.json if it doesn't already exist, and install the necessary dependencies.
+4. Start the Server
+     ```
+     npm start
+     ```
+- The application will run on http://localhost:8080.
 
-#### Start Coding:
-- After running the setup, you'll have a basic Express.js app ready with the MVC architecture in place. From here, you can focus on writing your actual application logic.
+# API Documentation
 
-## 📂 Project Structure
-- After setting up, your project will have the following structure:
+## Authentication Routes
+
+### POST `/api/auth/login`
+- ****Description**: Authenticates a user with username and password, returning a JWT token.
+
+### POST `/api/auth/register`
+- **Description**: Registers a new user (Admin or Member).
+
+---
+
+## User Routes
+
+### GET `/api/users/:id`
+- **Access**: Admin and the user themselves.
+- **Description**: Retrieve user by ID.
+- **Response**: User details.
+
+### PUT `/api/users/:id`
+- **Access**: Admin and the user themselves.
+- **Description**: Update user information.
+- **Request Body**: 
+  ```
+   {
+     "name": "string",
+     "email": "string",
+     "password": "string"
+   }
+  ```
+### DELETE /api/users/:id
+- **Access**: Admin only.
+- **Description**: Delete a user.
+- **Response**: Success message.
+
+
+## Author Routes
+
+### POST /api/authors
+**Access**: Admin only.
+**Description**: Create a new author.
+ - *Request Body* :
+    ```
+       {
+         "name": "string",
+         "biography": "string",
+         "dateOfBirth": "string",
+         "nationality": "string"
+       }
+    ```
+- **Response**: Created author details.
+
+### GET /api/authors
+**Description**: Retrieve all authors.
+Response: List of authors.
+
+### GET /api/authors/:id
+   **Description**: Retrieve author by ID.
+   Response: Author details including books authored.
+   PUT /api/authors/:id
+   **Access**: Admin only.
+   **Description**: Update author information.
+- Request Body:
    ```
-    my-project/
-    ├── src/
-    │   ├── config/
-    │   │   └── db.js            # MongoDB connection configuration
-    │   ├── controllers/
-    │   │   └── exampleController.js  # Controller for handling API logic
-    │   ├── models/
-    │   │   └── exampleModel.js   # Mongoose model
-    │   ├── routes/
-    │      └── exampleRoutes.js  # API routes
-    ├──.env                  # Environment variables (e.g., DB URI)
-    ├── server.js             # Main server file
-    └── package.json              # Project dependencies and scripts
+     {
+        "name": "string",
+        "biography": "string",
+        "dateOfBirth": "string",
+        "nationality": "string"
+     }
     ```
-#### Setup and Configuration
- - Environment Configuration
-   - This package uses a .env file to configure environment variables. The .env file is required for       storing sensitive information like the MongoDB connection URI and other configuration values.
-    Example .env file:
-    ```
-     PORT = <you can run on any port>
-     MONGO_URI = <your mongo db connection string>
-    ```
-  - Make sure to set up your MongoDB URI (MONGO_URI) and any other necessary environment variables.
+**Response**: Updated author details.
 
-#### Starting the Server
-- You can start the server by running the following command and If you want to change this command you can change by package.json     
-    ```
-       npm run start
-    ```
-- This will start the server using the nodemon package for automatic reloading during development.
+### DELETE /api/authors/:id
+**Access**: Admin only.
+**Description**: Delete an author.
+**Response**: Success message.
 
-#### 🔧 Usage
-  -  After setting up the project, you can start building your backend by adding your own routes, controllers, and models.
- - The mvc-express-setup package provides the base structure, allowing you to skip setting up the same basic configuration every time you start a new project.
 
-#### 📝 Available Scripts
-  - Start the server: Run npm start to start the server.
-  - Run with nodemon: For automatic server reloading, run npx nodemon server.js.
-  - Run tests: You can add tests to your project (optional).
+## Book Routes
 
-#### 📦 Available Dependencies
-  - express: Web framework for Node.js
-  - mongoose: MongoDB object modeling for Node.js
-  - dotenv: Loads environment variables from a .env file
-  - nodemon: Automatically restarts the server during development
+### POST /api/books
+**Access**: Admin only.
+**Description**: Add a new book.
+- Request Body:
+   ```
+       {
+         "title": "string",
+         "ISBN": "string",
+         "summary": "string",
+         "publicationDate": "string",
+         "genres": ["string"],
+         "copiesAvailable": "number",
+         "authorId": "string"
+       }
+   ``` 
+**Response**: Created book details.
 
-### ⚙️ Customization
-- You can extend the project by adding more models, controllers, routes, and other configurations as per your needs. The project is structured in a way that supports modular and scalable development.
+### GET /api/books
+**Description**: Retrieve all books.
+**Query Parameters**:
+```
+   author: Filter by author ID.
+   genre: Filter by genre.
+   title: Search by title.
+   page: Pagination.
+   limit: Pagination limit.
+```   
+**Response** : List of books with pagination info.
 
-### 🎉 Conclusion
-With mvc-express-setup, you can quickly set up a fully functional Express.js backend project. The tool automates the repetitive setup process, allowing you to focus on building your application rather than configuring basic settings.
+### GET /api/books/:id
+**Description**: Retrieve book by ID.
+**Response**: Book details including author info.
+
+
+### PUT /api/books/:id
+  **Access**: Admin only.
+  **Description**: Update book information.
+  **Request Body**:
+```
+    {
+      "title": "string",
+      "summary": "string",
+      "publicationDate": "string",
+      "genres": ["string"],
+      "copiesAvailable": "number"
+    }
+```
+
+**Response** : Updated book details.
+
+### DELETE /api/books/:id
+**Access**: Admin only.
+**Description**: Delete a book.
+**Response**: Success message.
+
+## Borrowing Routes
+### POST /api/borrowings
+**Access**: Member only.
+**Description**: Borrow a book.
+**Request Body**:
+```
+  {
+    "bookId": "string"
+  }
+```
+
+**Actions**:
+     Decrease copiesAvailable in Book.
+     Create a new BorrowingTransaction.
+     Add book to user's borrowedBooks.
+
+**Response**: BorrowingTransaction details.
+
+### GET /api/borrowings
+   **Access**: Admin only.
+   **Description**: Retrieve all borrowing transactions.
+   **Response**: List of transactions.
+
+### GET /api/borrowings/
+  **Access**: Member only.
+  **Description**: Retrieve borrowing history of the logged-in member.
+  **Response**: List of transactions.
+
+### PUT /api/borrowings/:id/return
+  **Access**: Member and Admin.
+  **Description**: Return a borrowed book.
+  **Actions**:
+   Update returnDate and status in BorrowingTransaction.
+   Increase copiesAvailable in Book.
+   Remove book from user's borrowedBooks.
+**Response**: Updated transaction details.
+
+
+## Error Handling
+**Validation Errors**: Returns a 400 status code with a list of validation messages.
+**Unauthorized Access**: Returns a 401 status code.
+**Forbidden Access**: Returns a 403 status code.
+**Not Found Errors**: Returns a 404 status code.
+**Internal Server Errors**: Returns a 500 status code.
