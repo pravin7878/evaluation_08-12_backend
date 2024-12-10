@@ -1,7 +1,7 @@
 const express = require("express");
 const bookRouter = express.Router();
-const { checkAuth } = require("../middelware/chackAuth");
-const { checkRole } = require("../middelware/checkRole");
+const  checkAuth  = require("../middelware/chackAuth");
+const  checkRole  = require("../middelware/chackRole");
 const {
   createBook,
   getAllBooks,
@@ -9,6 +9,8 @@ const {
   updateBook,
   deleteBook,
 } = require("../controlers/book.controler");
+
+
 const { roles } = require("../utils/contants");
 
 // create a new book (admin only)

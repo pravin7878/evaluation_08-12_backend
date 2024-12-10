@@ -5,7 +5,7 @@ const chackRole = require("../middelware/chackRole")
 // controlers
 const { registerUser, loginUser, getAllUsers, updateUser, deleteUser, getUserById } = require("../controlers/user.controler");
 
-const roles = require("../utils/contants")
+const {roles} = require("../utils/contants")
 const userRouter = express.Router()
 
 // register user

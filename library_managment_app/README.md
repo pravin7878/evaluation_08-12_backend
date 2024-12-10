@@ -112,7 +112,8 @@ Response: List of authors.
 ### GET /api/authors/:id
    **Description**: Retrieve author by ID.
    Response: Author details including books authored.
-   PUT /api/authors/:id
+
+### PUT /api/authors/:id
    **Access**: Admin only.
    **Description**: Update author information.
 - Request Body:

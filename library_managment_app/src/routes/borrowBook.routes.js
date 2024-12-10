@@ -1,7 +1,7 @@
 const express = require("express");
 const borrowRouter = express.Router();
-const { checkAuth } = require("../middelware/chackAuth");
-const { checkRole } = require("../middelware/chackRole");
+const  checkAuth  = require("../middelware/chackAuth");
+const  checkRole = require("../middelware/chackRole");
 const {
   borrowBook,
   getAllBorrowingTransactions,
